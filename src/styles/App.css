@@ -1,0 +1,29 @@
+@font-face {
+  font-family: Monteserrat;
+  src: url("/src/assets/fonts/Montserrat-VariableFont_wght.ttf");
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Monteserrat !important;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  min-height: 100vh;
+  background-color: rgb(18, 18, 20);
+  color: #ececec;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
