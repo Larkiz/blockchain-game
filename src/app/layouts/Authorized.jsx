@@ -17,7 +17,6 @@ export const AuthLayout = () => {
         {authRoutes.map((route, key) => {
           return <Route key={key} path={route.path} element={route.element} />;
         })}
-        {/* <Route path="*" element={<Navigate to="/admin/index" replace />} /> */}
       </Routes>
     );
   };

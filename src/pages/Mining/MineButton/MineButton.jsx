@@ -26,7 +26,7 @@ export const MineButton = ({ onClick, clicks }) => {
       const centerY = rect.top + rect.height / 2;
 
       const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-      const distance = 30;
+      const distance = 15;
 
       setPosition({
         x: Math.cos(angle) * distance,
@@ -35,14 +35,18 @@ export const MineButton = ({ onClick, clicks }) => {
     }
   };
 
+  function keyupHandle({ code }) {
+    if (code === "KeyS" || code === "KeyD") onClick();
+  }
+
   useEffect(() => {
-    document.addEventListener("keyup", onClick);
+    document.addEventListener("keyup", keyupHandle);
     if (!isMobile) {
       document.addEventListener("mousemove", handleMouseMove);
     }
     return () => {
       document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("keyup", onClick);
+      document.addEventListener("keyup", keyupHandle);
     };
   }, []);
 
@@ -80,7 +84,7 @@ export const MineButton = ({ onClick, clicks }) => {
             <Typography
               sx={{ color: colors.blackText, fontSize: 32, fontWeight: 700 }}
             >
-              {clicks * 10}
+              {clicks * 5}
             </Typography>
           </Stack>
         </Button>

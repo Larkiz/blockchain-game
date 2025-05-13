@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import { Container } from "@mui/material";
 
 import { CheckAuth } from "@/shared/lib/utils/middlewares/CheckAuth";
-// import { SignIn } from "@/pages/SignIn/SignIn";
 
 import { useEffect } from "react";
 import { AuthLayout } from "@/app/layouts/Authorized";

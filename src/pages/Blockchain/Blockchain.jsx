@@ -1,10 +1,12 @@
 import { Block } from "@/pages/Blockchain/ui/Block/Block";
 import { authFetch } from "@/shared/api/authFetch/authFetch";
 import { colors } from "@/shared/lib/utils/colors";
+import { StyledButton } from "@/shared/ui/Button/StyledButton";
 import { Title } from "@/shared/ui/Title/Title";
 import { Box } from "@mui/material";
 import { Background, Controls, MarkerType, ReactFlow } from "@xyflow/react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const nodeTypes = { block: Block };
 export const Blockchain = () => {
@@ -61,10 +63,26 @@ export const Blockchain = () => {
         setEdges(edges);
       });
   }, []);
+
+  function checkValid() {
+    authFetch("/checkBlockchainValid")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          return toast.success("Блокчейн валиден");
+        }
+
+        return toast.error("Блокчейн не валиден");
+      });
+  }
+
   return (
     <Box>
-      <Title sx={{ mb: 2, textAlign: "center" }}>Визуализация блокчейн</Title>
-      <Box sx={{ width: "100%", height: "700px", bgcolor: "#fff" }}>
+      <Title sx={{ mb: 4, textAlign: "center" }}>Визуализация блокчейн</Title>
+      <StyledButton sx={{ mb: 2 }} onClick={checkValid}>
+        Проверить валидность блокчейна
+      </StyledButton>
+      <Box sx={{ width: "100%", height: "600px", bgcolor: "#fff" }}>
         <ReactFlow
           connectionMode="loose"
           nodeTypes={nodeTypes}
