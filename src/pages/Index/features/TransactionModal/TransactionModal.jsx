@@ -8,11 +8,14 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export const TransactionModal = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({ amount: 0, toAddress: "" });
+  const { publicKey } = useSelector((store) => store.walletStore);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -21,6 +24,9 @@ export const TransactionModal = () => {
     setOpen(false);
   };
   function createTransaction() {
+    if (publicKey === data.toAddress) {
+      return toast.error("Нельзя отправить самому себе");
+    }
     socket.emit("transaction", {
       privateKey: sessionStorage.getItem("key"),
       address: data.toAddress,

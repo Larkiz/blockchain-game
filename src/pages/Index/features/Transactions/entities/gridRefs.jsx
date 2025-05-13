@@ -1,11 +1,6 @@
 import { GridCellAddress } from "@/pages/Index/features/Transactions/entities/ui/GridCellAddress";
 import { colors } from "@/shared/lib/utils/colors";
-import moment from "moment";
-function formatTimestamp(timestamp) {
-  const date = moment(timestamp).format("YYYY-MM-DD HH:mm");
-
-  return date;
-}
+import { formatTimestamp } from "@/shared/lib/utils/functions/formatTimestamp";
 
 export const gridRef = [
   {

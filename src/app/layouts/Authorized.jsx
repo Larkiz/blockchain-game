@@ -2,14 +2,14 @@ import { authRoutes } from "@/app/routes/routes";
 import { initStore, onTransaction } from "@/redux/slices/walletSlice";
 import { authFetch } from "@/shared/api/authFetch/authFetch";
 import { socket } from "@/shared/api/socket";
-import { CheckAuth } from "@/shared/lib/utils/middlewares/CheckAuth";
 
 import { Header } from "@/shared/widgets/Header/Header";
 
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Routes, useLocation, useNavigate } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 export const AuthLayout = () => {
   const routes = () => {
     return (
@@ -21,12 +21,12 @@ export const AuthLayout = () => {
       </Routes>
     );
   };
-  const location = useLocation();
+
   useEffect(() => {
     const authToken = sessionStorage.getItem("key");
     socket.auth = { token: authToken };
     socket.connect();
-  }, [location]);
+  }, []);
 
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -40,13 +40,14 @@ export const AuthLayout = () => {
       })
       .then((data) => {
         dispatch(initStore(data));
-
-        socket.emit("mine", { publicKey: data.publicKey, clicks: 1000 });
       });
   }, []);
   useEffect(() => {
-    function onMine() {}
     function onTx(data) {
+      if (data.message) {
+        return toast.error(data.message);
+      }
+
       dispatch(
         onTransaction({
           balance: data.newBalance,
@@ -55,20 +56,16 @@ export const AuthLayout = () => {
       );
     }
     socket.on("transactionResponse", onTx);
-    socket.on("mineResponse", onMine);
 
     return () => {
       socket.off("transactionResponse", onTx);
-      socket.off("mineResponse", onMine);
     };
   }, []);
   return (
     <>
       <Box>
-        <CheckAuth>
-          <Header />
-          {routes()}
-        </CheckAuth>
+        <Header routes={authRoutes} />
+        {routes()}
       </Box>
     </>
   );

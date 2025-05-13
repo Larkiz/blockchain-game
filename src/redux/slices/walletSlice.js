@@ -20,8 +20,16 @@ export const walletSlice = createSlice({
       state.balance = payload.balance;
       state.transactions = [payload.newTransaction, ...state.transactions];
     },
+    onMine: (state, { payload }) => {
+      state.balance += payload.reward;
+      state.transactions = [payload.newTransaction, ...state.transactions];
+    },
+    setPrivateKey: (state, { payload }) => {
+      state.privateKey += payload;
+    },
   },
 });
 
 // default
-export const { initStore, onTransaction } = walletSlice.actions;
+export const { initStore, onTransaction, onMine, setPrivateKey } =
+  walletSlice.actions;

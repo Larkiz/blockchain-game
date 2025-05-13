@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import { store } from "@/redux/initStore";
 import "moment/dist/locale/ru";
+import "@xyflow/react/dist/style.css";
 const theme = createTheme({
   breakpoints: {
     values: {

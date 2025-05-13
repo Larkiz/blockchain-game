@@ -1,12 +1,19 @@
-import { Box, IconButton, Stack, SwipeableDrawer } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Stack,
+  SwipeableDrawer,
+  Typography,
+} from "@mui/material";
 
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { DrawerMenu } from "@/shared/widgets/Header/widgets/DrawerMenu";
 import { colors } from "@/shared/lib/utils/colors";
 import { Puller } from "@/shared/widgets/Header/ui/Puller";
+import { useSelector } from "react-redux";
 
-export const Header = () => {
+export const Header = ({ routes }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const handleDrawerClose = () => {
@@ -19,9 +26,9 @@ export const Header = () => {
       setMobileOpen(!mobileOpen);
     }
   };
-
+  const balance = useSelector(({ walletStore }) => walletStore.balance);
   return (
-    <Stack direction={"row"}>
+    <Stack alignItems={"center"} direction={"row"}>
       <Stack
         direction={"row"}
         justifyContent={"space-between"}
@@ -36,7 +43,11 @@ export const Header = () => {
         >
           <MenuIcon sx={{ fontSize: 30, color: colors.whiteText }} />
         </IconButton>
-        <DrawerMenu handleDrawerClose={handleDrawerClose} mobileHidden />
+        <DrawerMenu
+          routes={routes}
+          handleDrawerClose={handleDrawerClose}
+          mobileHidden
+        />
       </Stack>
       <Box component="nav" aria-label="links">
         <SwipeableDrawer
@@ -49,9 +60,12 @@ export const Header = () => {
           keepMounted
         >
           <Puller />
-          <DrawerMenu handleDrawerClose={handleDrawerToggle} />
+          <DrawerMenu routes={routes} handleDrawerClose={handleDrawerToggle} />
         </SwipeableDrawer>
       </Box>
+      <Typography sx={{ fontWeight: 600, fontSize: 18, textWrap: "nowrap" }}>
+        {balance} OC
+      </Typography>
     </Stack>
   );
 };

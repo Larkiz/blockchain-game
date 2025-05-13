@@ -7,7 +7,7 @@ import { Title } from "@/shared/ui/Title/Title";
 import { Box, Stack, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 
-const typographySx = { color: colors.blackText, fontWeight: 600, fontSize: 48 };
+const typographySx = { color: colors.blackText, fontWeight: 600, fontSize: 40 };
 
 export const Index = () => {
   const wallet = useSelector((store) => store.walletStore);
@@ -18,9 +18,10 @@ export const Index = () => {
         <Stack
           sx={{
             bgcolor: colors.whiteBg,
-            width: 400,
+            maxWidth: { xs: "100%", sm750: 400 },
+            width: { sm750: 400 },
             borderRadius: 5,
-            p: "20px",
+            p: 3,
             height: 250,
           }}
         >
